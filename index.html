@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FINDIGIP - Marketplace Prodotti Digitali Premium</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 255, 255, 0.2); }
+            to { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.4); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #ffd700;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ffd700;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: slideInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            animation: slideInUp 1s ease-out 0.2s both;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ffd700, #ffed4a);
+            color: #333;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+            transition: all 0.3s ease;
+            animation: slideInUp 1s ease-out 0.4s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: floatAround 15s infinite linear;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 15%;
+            animation-delay: -5s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        @keyframes floatAround {
+            0% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(15px) rotate(240deg); }
+            100% { transform: translateY(0px) rotate(360deg); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .feature-card h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        /* Products Section */
+        .products {
+            padding: 5rem 0;
+            background: linear-gradient(45deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-image {
+            height: 200px;
+            background: linear-gradient(45deg, #ffd700, #ffed4a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #333;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-info p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .product-price {
+            color: #ffd700;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 0;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-section h2 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .cta-section p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3rem 0 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p, .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            line-height: 1.8;
+        }
+
+        .footer-section a:hover {
+            color: #ffd700;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">FINDIGIP</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#prodotti">Prodotti</a></li>
+                <li><a href="#servizi">Servizi</a></li>
+                <li><a href="#contatti">Contatti</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        
+        <div class="hero-content">
+            <h1>Benvenuto su FINDIGIP</h1>
+            <p>Il marketplace premium per prodotti digitali di alta qualità. Scopri, acquista e trasforma le tue idee in realtà con i migliori strumenti digitali del mercato.</p>
+            <a href="#prodotti" class="cta-button">Esplora i Prodotti</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features fade-in" id="servizi">
+        <div class="container">
+            <h2 class="section-title">Perché Scegliere FINDIGIP?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Qualità Premium</h3>
+                    <p>Tutti i nostri prodotti digitali sono selezionati accuratamente per garantire la massima qualità e professionalità.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Download Istantaneo</h3>
+                    <p>Accesso immediato ai tuoi acquisti. Scarica i prodotti digitali subito dopo il pagamento, 24/7.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Sicurezza Garantita</h3>
+                    <p>Pagamenti sicuri e protetti. I tuoi dati e transazioni sono sempre al sicuro con noi.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💎</div>
+                    <h3>Prodotti Esclusivi</h3>
+                    <p>Accedi a contenuti digitali esclusivi che non troverai altrove. Sempre aggiornati e innovativi.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Supporto Dedicato</h3>
+                    <p>Il nostro team è sempre pronto ad aiutarti. Assistenza professionale per ogni tua esigenza.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Aggiornamenti Continui</h3>
+                    <p>I nostri prodotti si evolvono costantemente. Ricevi aggiornamenti gratuiti e nuove funzionalità.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products fade-in" id="prodotti">
+        <div class="container">
+            <h2 class="section-title">I Nostri Prodotti Digitali</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">📱</div>
+                    <div class="product-info">
+                        <h3>App Mobile</h3>
+                        <p>Applicazioni innovative per iOS e Android, pronte all'uso e completamente personalizzabili.</p>
+                        <div class="product-price">€49.99</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">🎨</div>
+                    <div class="product-info">
+                        <h3>Template Design</h3>
+                        <p>Template professionali per siti web, presentazioni e materiali di marketing.</p>
+                        <div class="product-price">€29.99</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">📊</div>
+                    <div class="product-info">
+                        <h3>Dashboard Analytics</h3>
+                        <p>Strumenti avanzati per l'analisi dei dati e la visualizzazione delle metriche aziendali.</p>
+                        <div class="product-price">€79.99</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">🎓</div>
+                    <div class="product-info">
+                        <h3>Corsi Online</h3>
+                        <p>Formazione digitale di alta qualità su tecnologie moderne e strategie di business.</p>
+                        <div class="product-price">€99.99</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">🔧</div>
+                    <div class="product-info">
+                        <h3>Plugin & Tool</h3>
+                        <p>Estensioni e strumenti per migliorare la produttività e l'efficienza del tuo lavoro.</p>
+                        <div class="product-price">€39.99</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">📚</div>
+                    <div class="product-info">
+                        <h3>E-book Premium</h3>
+                        <p>Guide complete e manuali specializzati per approfondire le tue competenze digitali.</p>
+                        <div class="product-price">€19.99</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section fade-in">
+        <div class="container">
+            <h2>Pronto a Iniziare?</h2>
+            <p>Unisciti a migliaia di clienti soddisfatti che hanno già trasformato le loro idee in successo con FINDIGIP.</p>
+            <a href="#prodotti" class="cta-button">Inizia Subito</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contatti">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>FINDIGIP</h3>
+                    <p>Il tuo marketplace di fiducia per prodotti digitali premium. Innovazione, qualità e successo a portata di click.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contatti</h3>
+                    <p>Email: info@findigip.com</p>
+                    <p>Tel: +39 02 1234 5678</p>
+                    <p>Orari: Lun-Ven 9:00-18:00</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Link Utili</h3>
+                    <p><a href="#">FAQ</a></p>
+                    <p><a href="#">Privacy Policy</a></p>
+                    <p><a href="#">Termini di Servizio</a></p>
+                    <p><a href="#">Supporto</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FINDIGIP. Tutti i diritti riservati.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Header transparency on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 0, 0, 0.8)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.1)';
+            }
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Product cards hover effect
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05) rotateY(5deg)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1) rotateY(0deg)';
+            });
+        });
+
+        // Feature cards interaction
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.background = 'rgba(255, 215, 0, 0.2)';
+                setTimeout(() => {
+                    this.style.background = 'rgba(255, 255, 255, 0.15)';
+                }, 300);
+            });
+        });
+
+        // Dynamic background particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.width = Math.random() * 4 + 2 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.background = 'rgba(255, 255, 255, 0.1)';
+            particle.style.borderRadius = '50%';
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = window.innerHeight + 'px';
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '1';
+            
+            document.body.appendChild(particle);
+            
+            const duration = Math.random() * 3000 + 2000;
+            const drift = (Math.random() - 0.5) * 100;
+            
+            particle.animate([
+                { transform: `translateY(0px) translateX(0px)`, opacity: 0 },
+                { transform: `translateY(-${window.innerHeight + 100}px) translateX(${drift}px)`, opacity: 1 }
+            ], {
+                duration: duration,
+                easing: 'linear'
+            }).onfinish = () => particle.remove();
+        }
+
+        // Create particles periodically
+        setInterval(createParticle, 300);
+
+        // Add click effect to CTA buttons
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255, 255, 255, 0.6)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.pointerEvents = 'none';
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Add ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        console.log('🚀 FINDIGIP - Sito caricato con successo!');
+    </script>
+</body>
+</html>
